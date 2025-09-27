@@ -60,24 +60,26 @@
 
 .expand-button {
   position: absolute;
-  right: -15px;
+  right: -80px;
   top: 50%;
   transform: translateY(-50%);
-  width: 30px;
+  min-width: 140px;
   height: 30px;
+  padding: 0 12px;
   background: rgba(255, 255, 255, 0.9);
   color: #333;
   border: 2px solid white;
-  border-radius: 50%;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: bold;
   z-index: 10;
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
 }
 
 .expand-button:hover {
@@ -100,6 +102,15 @@
   opacity: 1;
   transform: translateX(0);
   visibility: visible;
+}
+
+/* Instant collapse - no transition when collapsing */
+#arxiv-box-tree.collapsing .tree-children {
+  transition: none;
+}
+
+#arxiv-box-tree.collapsing .tree-connectors {
+  transition: none;
 }
 
 #arxiv-box-tree .box-title {

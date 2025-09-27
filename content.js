@@ -67,8 +67,8 @@
   // Create expand button
   const expandButton = document.createElement('div');
   expandButton.className = 'expand-button';
-  expandButton.innerHTML = '+';
-  expandButton.title = 'Identify Limitations';
+  expandButton.innerHTML = 'Generate Limitations';
+  expandButton.title = 'Generate Limitations';
   rootBox.appendChild(expandButton);
 
   const childrenContainer = document.createElement('div');
@@ -200,23 +200,55 @@
   
   // Expand/collapse functionality
   let isExpanded = false;
+  let hasGeneratedOnce = false;
   
   const toggleExpand = (event) => {
     event.stopPropagation(); // Prevent dragging when clicking expand button
-    isExpanded = !isExpanded;
     
-    if (isExpanded) {
-      tree.classList.add('expanded');
-      expandButton.innerHTML = '−';
-      expandButton.title = 'Collapse';
-      // Update connectors after expansion animation
-      setTimeout(() => {
-        updateConnectors();
-      }, 300);
+    if (!isExpanded) {
+      // Expanding
+      if (!hasGeneratedOnce) {
+        // First time - show "Generating..." and add 2 second delay
+        expandButton.innerHTML = 'Generating...';
+        expandButton.style.pointerEvents = 'none'; // Disable button during generation
+        
+        setTimeout(() => {
+          isExpanded = true;
+          hasGeneratedOnce = true;
+          tree.classList.add('expanded');
+          expandButton.innerHTML = 'Collapse';
+          expandButton.title = 'Collapse';
+          expandButton.style.pointerEvents = 'auto';
+          
+          // Update connectors after expansion animation
+          setTimeout(() => {
+            updateConnectors();
+          }, 300);
+        }, 2000);
+      } else {
+        // Subsequent times - immediate expand
+        isExpanded = true;
+        tree.classList.add('expanded');
+        expandButton.innerHTML = 'Collapse';
+        expandButton.title = 'Collapse';
+        
+        // Update connectors after expansion animation
+        setTimeout(() => {
+          updateConnectors();
+        }, 300);
+      }
     } else {
+      // Collapsing - always instant
+      isExpanded = false;
+      tree.classList.add('collapsing');
       tree.classList.remove('expanded');
-      expandButton.innerHTML = '+';
-      expandButton.title = 'Identify Limitations';
+      expandButton.innerHTML = 'Expand';
+      expandButton.title = 'Expand';
+      
+      // Remove collapsing class after instant collapse
+      setTimeout(() => {
+        tree.classList.remove('collapsing');
+      }, 10);
     }
   };
   
