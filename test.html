@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test ArXiv Extension</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="content">
+        <h1>Test Page for Real AI Research Paper Explorer</h1>
+        <p>This tests the 3-level hierarchical exploration with real AI research papers and clickable titles.</p>
+        <h2>Real AI Research Papers:</h2>
+        <ul>
+            <li><strong>Root:</strong> "Attention Is All You Need" (The foundational Transformer paper)</li>
+            <li><strong>Level 1:</strong> BERT, Vision Transformer, GPT, Switch Transformer</li>
+            <li><strong>Level 2:</strong> RoBERTa, ALBERT, DeiT, Swin Transformer, GPT-3, PaLM, GLaM</li>
+            <li><strong>All papers:</strong> Link to actual ArXiv URLs and research papers</li>
+        </ul>
+        <h2>New Clickable Title Feature:</h2>
+        <ul>
+            <li><strong>Click paper titles:</strong> Opens the actual research paper in a new tab</li>
+            <li><strong>Click elsewhere on box:</strong> Selects/navigates to that paper (collapse behavior)</li>
+            <li><strong>Visual feedback:</strong> Titles show blue hover effects and underlines</li>
+            <li><strong>Real URLs:</strong> Direct links to ArXiv papers and OpenAI research</li>
+        </ul>
+        <h2>Expected Features:</h2>
+        <ul>
+            <li><strong>Red toggle button</strong> in the bottom right corner</li>
+            <li><strong>Main paper</strong> with "Find New Papers" (white button) - draggable</li>
+            <li><strong>"Find More" buttons</strong> (blue) on Level 1 papers</li>
+            <li><strong>Horizontal drag handles</strong> (⋮⋮) on all sub-boxes - drag left/right only</li>
+            <li><strong>3 hover colors:</strong> Green (Level 1), Orange (Level 2), Green (back button)</li>
+            <li><strong>Improved line alignment</strong> - connectors properly aligned to box centers</li>
+            <li><strong>Complete collapse</strong> when any paper is selected</li>
+            <li><strong>"← Go Back" button</strong> (appears when navigated)</li>
+        </ul>
+        <h2>New Drag Features:</h2>
+        <ul>
+            <li><strong>Main paper:</strong> Full drag (move anywhere)</li>
+            <li><strong>Level 1 & 2 papers:</strong> Horizontal drag only (±300px limit - increased!)</li>
+            <li><strong>Drag handles:</strong> Small ⋮⋮ icons in top-left of each sub-box</li>
+            <li><strong>Live connector updates:</strong> Lines update in real-time during drag</li>
+            <li><strong>Extended container:</strong> 1800px width (doubled) prevents cutoff issues</li>
+        </ul>
+        <h2>Test Sequence:</h2>
+        <ol>
+            <li>Click red toggle → see "Attention Is All You Need" paper</li>
+            <li><strong>Click the paper title</strong> → opens ArXiv page in new tab</li>
+            <li>Drag main paper around → test full movement</li>
+            <li>Click "Find New Papers" → see BERT and Vision Transformer papers</li>
+            <li><strong>Click BERT title</strong> → opens BERT paper on ArXiv</li>
+            <li>Click elsewhere on BERT box → navigates to BERT as root paper</li>
+            <li>Click "Find More" on any Level 1 paper → see Level 2 papers</li>
+            <li><strong>Click any Level 2 title</strong> → opens that paper's ArXiv page</li>
+            <li>Click "← Go Back" → return to previous paper</li>
+        </ol>
+        <h2>Visual Structure:</h2>
+        <pre>
+Root Paper ──┬── Level 1A ──┬── Level 2A1
+             │              └── Level 2A2
+             └── Level 1B ──┬── Level 2B1
+                            └── Level 2B2
+        </pre>
+        <p>Check browser console for debug messages starting with "ArXiv Extension:"</p>
+    </div>
+    
+    <script src="content.js"></script>
+</body>
+</html>

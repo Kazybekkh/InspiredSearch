@@ -1,19 +1,24 @@
 {
   "manifest_version": 3,
-  "name": "ArXiv Draggable Box",
-  "version": "1.0.0",
-  "description": "Displays a draggable rectangle on arxiv.org/html/ pages.",
+  "name": "ArXiv 3-Level Paper Explorer",
+  "version": "3.0.0",
+  "description": "3-level AI research paper explorer with clickable titles linking to real ArXiv papers.",
+  "permissions": [
+    "activeTab"
+  ],
   "content_scripts": [
     {
       "matches": [
-        "https://arxiv.org/html/*"
+        "https://arxiv.org/html/*",
+        "https://arxiv.org/*"
       ],
       "js": [
         "content.js"
       ],
       "css": [
         "styles.css"
-      ]
+      ],
+      "run_at": "document_idle"
     }
   ]
 }

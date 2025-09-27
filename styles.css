@@ -9,11 +9,18 @@
   opacity: 0;
   transform: scale(0.8);
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 1800px; /* Doubled from 900px to prevent cutoff */
+  height: auto;
 }
 
 #arxiv-box-tree.visible {
   opacity: 1;
   transform: scale(1);
+}
+
+#arxiv-box-tree.transitioning {
+  transform: scale(0.95);
+  opacity: 0.7;
 }
 
 #arxiv-box-tree * {
@@ -51,11 +58,24 @@
   text-align: left;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
   backdrop-filter: blur(3px);
+  transition: all 0.3s ease;
 }
 
 #arxiv-box-tree .tree-box.tree-root {
   cursor: move;
   position: relative;
+}
+
+#arxiv-box-tree .tree-box.selectable-paper {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+#arxiv-box-tree .tree-box.selectable-paper:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: #4CAF50;
+  transform: translateX(-5px);
+  box-shadow: 0 8px 20px rgba(76, 175, 80, 0.3);
 }
 
 .expand-button {
@@ -87,10 +107,155 @@
   transform: translateY(-50%) scale(1.1);
 }
 
+.back-button {
+  position: absolute;
+  left: -80px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 100px;
+  height: 30px;
+  padding: 0 12px;
+  background: rgba(76, 175, 80, 0.9);
+  color: white;
+  border: 2px solid #4CAF50;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: bold;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  opacity: 1;
+}
+
+.back-button:hover {
+  background: #4CAF50;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.back-button[style*="display: none"] {
+  opacity: 0;
+  transform: translateY(-50%) scale(0.8);
+}
+
+#arxiv-box-tree .tree-child {
+  position: relative;
+  margin-bottom: 80px; /* Increased from 40px for better grandchildren spacing */
+  transition: transform 0.1s ease;
+  overflow: visible; /* Allow grandchildren to extend beyond parent bounds */
+}
+
+.grandchild-box {
+  position: relative;
+  width: 200px;
+  min-height: 100px;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  transition: all 0.2s ease, transform 0.1s ease;
+}
+
+.child-expand-button {
+  position: absolute;
+  right: -70px;
+  top: 50%;
+  transform: translateY(-50%);
+  min-width: 80px;
+  height: 25px;
+  padding: 0 8px;
+  background: rgba(33, 150, 243, 0.9);
+  color: white;
+  border: 2px solid #2196F3;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: bold;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.child-expand-button:hover {
+  background: #2196F3;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.grandchildren-container {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Increased from 15px for better spacing between grandchildren */
+  margin-top: 0px; /* Remove top margin for better alignment */
+  margin-left: 250px; /* Reduced from 280px for better positioning */
+  position: absolute;
+  top: 0; /* Align with the top of parent box */
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s ease;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+}
+
+.grandchildren-container.visible {
+  opacity: 1;
+  transform: translateX(0);
+  visibility: visible;
+  max-height: 500px;
+}
+
+.grandchild-box:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: #FF9800;
+  transform: translateX(-5px);
+  box-shadow: 0 6px 16px rgba(255, 152, 0, 0.3);
+}
+
+.child-drag-handle,
+.grandchild-drag-handle {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  z-index: 15;
+  transition: all 0.2s ease;
+}
+
+.child-drag-handle:hover,
+.grandchild-drag-handle:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.child-drag-handle:active,
+.grandchild-drag-handle:active {
+  cursor: grabbing;
+  background: rgba(255, 255, 255, 0.4);
+}
+
 #arxiv-box-tree .tree-children {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 120px; /* Significantly increased from 30px to accommodate 4 grandchildren */
   position: relative;
   opacity: 0;
   transform: translateX(-20px);
@@ -120,6 +285,27 @@
   color: white;
 }
 
+.clickable-title {
+  cursor: pointer;
+  transition: color 0.2s ease, text-decoration 0.2s ease, transform 0.2s ease;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.clickable-title:hover {
+  color: #4da6ff;
+  text-decoration-color: #4da6ff;
+  transform: scale(1.02);
+  background-color: rgba(77, 166, 255, 0.1);
+}
+
+.clickable-title:active {
+  color: #0066cc;
+  transform: scale(0.98);
+}
+
 #arxiv-box-tree .limitation-list {
   margin: 0;
   padding-left: 16px;
@@ -131,26 +317,42 @@
   margin-bottom: 4px;
 }
 
+.paper-content {
+  flex: 1;
+  animation: paperFadeIn 0.3s ease-out;
+}
+
+@keyframes paperFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 #arxiv-flowchart-toggle {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 50px;
-  height: 50px;
-  background: rgba(0, 0, 0, 0.8);
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 0, 0, 0.8); /* Red for visibility during debugging */
   color: white;
-  border: 2px solid white;
+  border: 3px solid white;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   z-index: 999999;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: bold;
   backdrop-filter: blur(5px);
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 #arxiv-flowchart-toggle:hover {
