@@ -11,15 +11,15 @@
   tree.style.top = '20px';
   tree.style.left = '20px';
   tree.style.position = 'fixed';
-  tree.style.width = '320px';
-  tree.style.height = '220px';
+  tree.style.width = '600px';
+  tree.style.height = '300px';
 
   const svgNamespace = 'http://www.w3.org/2000/svg';
   const connectors = document.createElementNS(svgNamespace, 'svg');
   connectors.classList.add('tree-connectors');
-  connectors.setAttribute('viewBox', '0 0 320 220');
-  connectors.setAttribute('width', '320');
-  connectors.setAttribute('height', '220');
+  connectors.setAttribute('viewBox', '0 0 600 300');
+  connectors.setAttribute('width', '600');
+  connectors.setAttribute('height', '300');
   connectors.setAttribute('preserveAspectRatio', 'none');
 
   const defs = document.createElementNS(svgNamespace, 'defs');
@@ -40,32 +40,54 @@
   defs.appendChild(marker);
   connectors.appendChild(defs);
 
-  const leftLine = document.createElementNS(svgNamespace, 'line');
-  leftLine.setAttribute('stroke', '#007bff');
-  leftLine.setAttribute('stroke-width', '2');
-  leftLine.setAttribute('marker-end', 'url(#arxiv-tree-arrowhead)');
+  // Create paths for right-angled connections
+  const topPath = document.createElementNS(svgNamespace, 'path');
+  topPath.setAttribute('stroke', 'white');
+  topPath.setAttribute('stroke-width', '2');
+  topPath.setAttribute('fill', 'none');
 
-  const rightLine = document.createElementNS(svgNamespace, 'line');
-  rightLine.setAttribute('stroke', '#007bff');
-  rightLine.setAttribute('stroke-width', '2');
-  rightLine.setAttribute('marker-end', 'url(#arxiv-tree-arrowhead)');
+  const bottomPath = document.createElementNS(svgNamespace, 'path');
+  bottomPath.setAttribute('stroke', 'white');
+  bottomPath.setAttribute('stroke-width', '2');
+  bottomPath.setAttribute('fill', 'none');
 
-  connectors.append(leftLine, rightLine);
+  connectors.append(topPath, bottomPath);
 
   const rootBox = document.createElement('div');
   rootBox.className = 'tree-box tree-root drag-handle';
-  rootBox.textContent = 'Main Box';
+  rootBox.innerHTML = `
+    <div class="box-title">SAGE: A Realistic Benchmark</div>
+    <ul class="limitation-list">
+      <li>Limitation 1</li>
+      <li>Limitation 2</li>
+      <li>Limitation 3</li>
+    </ul>
+  `;
 
   const childrenContainer = document.createElement('div');
   childrenContainer.className = 'tree-children';
 
   const leftChild = document.createElement('div');
   leftChild.className = 'tree-box tree-child';
-  leftChild.textContent = 'Child Box A';
+  leftChild.innerHTML = `
+    <div class="box-title">Paper 2</div>
+    <ul class="limitation-list">
+      <li>Limitation 1</li>
+      <li>Limitation 2</li>
+      <li>Limitation 3</li>
+    </ul>
+  `;
 
   const rightChild = document.createElement('div');
   rightChild.className = 'tree-box tree-child';
-  rightChild.textContent = 'Child Box B';
+  rightChild.innerHTML = `
+    <div class="box-title">Paper 3</div>
+    <ul class="limitation-list">
+      <li>Limitation 1</li>
+      <li>Limitation 2</li>
+      <li>Limitation 3</li>
+    </ul>
+  `;
 
   childrenContainer.append(leftChild, rightChild);
 
@@ -75,21 +97,31 @@
   const updateConnectors = () => {
     const containerRect = tree.getBoundingClientRect();
     const rootRect = rootBox.getBoundingClientRect();
-    const leftRect = leftChild.getBoundingClientRect();
-    const rightRect = rightChild.getBoundingClientRect();
+    const topChildRect = leftChild.getBoundingClientRect();
+    const bottomChildRect = rightChild.getBoundingClientRect();
 
-    const rootCenterX = rootRect.left + rootRect.width / 2 - containerRect.left;
-    const rootBottomY = rootRect.bottom - containerRect.top;
+    // Starting point from right edge of root box
+    const startX = rootRect.right - containerRect.left;
+    const startY = rootRect.top + rootRect.height / 2 - containerRect.top;
 
-    leftLine.setAttribute('x1', String(rootCenterX));
-    leftLine.setAttribute('y1', String(rootBottomY));
-    leftLine.setAttribute('x2', String(leftRect.left + leftRect.width / 2 - containerRect.left));
-    leftLine.setAttribute('y2', String(leftRect.top - containerRect.top));
+    // Connection points for child boxes (left edge, center)
+    const topChildX = topChildRect.left - containerRect.left;
+    const topChildY = topChildRect.top + topChildRect.height / 2 - containerRect.top;
+    
+    const bottomChildX = bottomChildRect.left - containerRect.left;
+    const bottomChildY = bottomChildRect.top + bottomChildRect.height / 2 - containerRect.top;
 
-    rightLine.setAttribute('x1', String(rootCenterX));
-    rightLine.setAttribute('y1', String(rootBottomY));
-    rightLine.setAttribute('x2', String(rightRect.left + rightRect.width / 2 - containerRect.left));
-    rightLine.setAttribute('y2', String(rightRect.top - containerRect.top));
+    // Midpoint for the vertical line
+    const midX = startX + 30;
+
+    // Create right-angled paths
+    // Path to top child: right -> down/up -> right
+    const topPathData = `M ${startX} ${startY} L ${midX} ${startY} L ${midX} ${topChildY} L ${topChildX} ${topChildY}`;
+    topPath.setAttribute('d', topPathData);
+
+    // Path to bottom child: right -> down/up -> right  
+    const bottomPathData = `M ${startX} ${startY} L ${midX} ${startY} L ${midX} ${bottomChildY} L ${bottomChildX} ${bottomChildY}`;
+    bottomPath.setAttribute('d', bottomPathData);
   };
 
   requestAnimationFrame(updateConnectors);
