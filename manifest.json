@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "ArXiv Draggable Box",
+  "version": "1.0.0",
+  "description": "Displays a draggable rectangle on arxiv.org/html/ pages.",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://arxiv.org/html/*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "styles.css"
+      ]
+    }
+  ]
+}
+

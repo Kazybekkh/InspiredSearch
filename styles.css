@@ -1,0 +1,18 @@
+#arxiv-draggable-box {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 200px;
+  height: 120px;
+  background-color: rgba(0, 123, 255, 0.2);
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  color: #007bff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: move;
+  z-index: 9999;
+  backdrop-filter: blur(2px);
+}
+
