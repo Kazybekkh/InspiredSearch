@@ -1,13 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Inspired Search – Compact Paper Graph",
+  "name": "ArXiv Draggable Box",
   "version": "1.0.0",
-  "description": "Compact overlay that visualizes related papers around the current arXiv paper.",
+  "description": "Displays a draggable rectangle on arxiv.org/html/ pages.",
   "content_scripts": [
     {
       "matches": [
-        "https://arxiv.org/*",
-        "http://arxiv.org/*"
+        "https://arxiv.org/html/*"
       ],
       "js": [
         "content.js"
