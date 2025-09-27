@@ -1,18 +1,52 @@
-#arxiv-draggable-box {
+#arxiv-box-tree {
   position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 200px;
-  height: 120px;
-  background-color: rgba(0, 123, 255, 0.2);
+  z-index: 9999;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+#arxiv-box-tree * {
+  box-sizing: border-box;
+}
+
+#arxiv-box-tree .tree-connectors {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#arxiv-box-tree .tree-box {
+  width: 180px;
+  min-height: 80px;
+  padding: 16px;
+  background-color: rgba(0, 123, 255, 0.1);
   border: 2px solid #007bff;
-  border-radius: 8px;
-  color: #007bff;
+  border-radius: 12px;
+  color: #004c99;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(3px);
+}
+
+#arxiv-box-tree .tree-box.tree-root {
   cursor: move;
-  z-index: 9999;
-  backdrop-filter: blur(2px);
+}
+
+#arxiv-box-tree .tree-children {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  padding-top: 12px;
 }
 
