@@ -64,6 +64,13 @@
     </ul>
   `;
 
+  // Create expand button
+  const expandButton = document.createElement('div');
+  expandButton.className = 'expand-button';
+  expandButton.innerHTML = '+';
+  expandButton.title = 'Identify Limitations';
+  rootBox.appendChild(expandButton);
+
   const childrenContainer = document.createElement('div');
   childrenContainer.className = 'tree-children';
 
@@ -92,24 +99,41 @@
   childrenContainer.append(leftChild, rightChild);
 
   tree.append(connectors, rootBox, childrenContainer);
+  
+  // Create toggle button
+  const toggleButton = document.createElement('div');
+  toggleButton.id = 'arxiv-flowchart-toggle';
+  toggleButton.innerHTML = '☰';
+  toggleButton.title = 'Toggle Flowchart';
+  
+  // Initially hide the tree and show the button
+  tree.style.display = 'flex';
+  
   document.body.appendChild(tree);
+  document.body.appendChild(toggleButton);
 
   const updateConnectors = () => {
-    const containerRect = tree.getBoundingClientRect();
+    // Only update if the tree is visible and expanded
+    if (!tree.classList.contains('visible') || !tree.classList.contains('expanded')) {
+      return;
+    }
+
+    // Use relative positioning within the tree container
     const rootRect = rootBox.getBoundingClientRect();
+    const treeRect = tree.getBoundingClientRect();
     const topChildRect = leftChild.getBoundingClientRect();
     const bottomChildRect = rightChild.getBoundingClientRect();
 
-    // Starting point from right edge of root box
-    const startX = rootRect.right - containerRect.left;
-    const startY = rootRect.top + rootRect.height / 2 - containerRect.top;
+    // Starting point from right edge of root box (relative to tree container)
+    const startX = rootRect.right - treeRect.left;
+    const startY = rootRect.top + rootRect.height / 2 - treeRect.top;
 
-    // Connection points for child boxes (left edge, center)
-    const topChildX = topChildRect.left - containerRect.left;
-    const topChildY = topChildRect.top + topChildRect.height / 2 - containerRect.top;
+    // Connection points for child boxes (left edge, center, relative to tree container)
+    const topChildX = topChildRect.left - treeRect.left;
+    const topChildY = topChildRect.top + topChildRect.height / 2 - treeRect.top;
     
-    const bottomChildX = bottomChildRect.left - containerRect.left;
-    const bottomChildY = bottomChildRect.top + bottomChildRect.height / 2 - containerRect.top;
+    const bottomChildX = bottomChildRect.left - treeRect.left;
+    const bottomChildY = bottomChildRect.top + bottomChildRect.height / 2 - treeRect.top;
 
     // Midpoint for the vertical line
     const midX = startX + 30;
@@ -151,6 +175,9 @@
     isDragging = false;
     document.removeEventListener('mousemove', onMouseMove);
     document.removeEventListener('mouseup', onMouseUp);
+    
+    // Update connectors only after dragging is complete
+    updateConnectors();
   };
 
   const onMouseDown = (event) => {
@@ -170,5 +197,53 @@
   };
 
   tree.addEventListener('mousedown', onMouseDown);
+  
+  // Expand/collapse functionality
+  let isExpanded = false;
+  
+  const toggleExpand = (event) => {
+    event.stopPropagation(); // Prevent dragging when clicking expand button
+    isExpanded = !isExpanded;
+    
+    if (isExpanded) {
+      tree.classList.add('expanded');
+      expandButton.innerHTML = '−';
+      expandButton.title = 'Collapse';
+      // Update connectors after expansion animation
+      setTimeout(() => {
+        updateConnectors();
+      }, 300);
+    } else {
+      tree.classList.remove('expanded');
+      expandButton.innerHTML = '+';
+      expandButton.title = 'Identify Limitations';
+    }
+  };
+  
+  expandButton.addEventListener('click', toggleExpand);
+  
+  // Toggle functionality
+  let isFlowchartVisible = false;
+  
+  const toggleFlowchart = () => {
+    isFlowchartVisible = !isFlowchartVisible;
+    
+    if (isFlowchartVisible) {
+      tree.classList.add('visible');
+      toggleButton.innerHTML = '✕';
+      toggleButton.title = 'Close Flowchart';
+      // Update connectors after animation completes
+      setTimeout(() => {
+        updateConnectors();
+      }, 400);
+    } else {
+      tree.classList.remove('visible');
+      toggleButton.innerHTML = '☰';
+      toggleButton.title = 'Show Flowchart';
+    }
+  };
+  
+  toggleButton.addEventListener('click', toggleFlowchart);
+  
   updateConnectors();
 })();

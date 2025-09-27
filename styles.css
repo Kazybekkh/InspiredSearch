@@ -6,6 +6,14 @@
   flex-direction: row;
   align-items: center;
   gap: 40px;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#arxiv-box-tree.visible {
+  opacity: 1;
+  transform: scale(1);
 }
 
 #arxiv-box-tree * {
@@ -19,6 +27,12 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#arxiv-box-tree.expanded .tree-connectors {
+  opacity: 1;
 }
 
 #arxiv-box-tree .tree-box {
@@ -41,6 +55,34 @@
 
 #arxiv-box-tree .tree-box.tree-root {
   cursor: move;
+  position: relative;
+}
+
+.expand-button {
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: 2px solid white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.expand-button:hover {
+  background: white;
+  transform: translateY(-50%) scale(1.1);
 }
 
 #arxiv-box-tree .tree-children {
@@ -48,6 +90,16 @@
   flex-direction: column;
   gap: 20px;
   position: relative;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.3s ease;
+  visibility: hidden;
+}
+
+#arxiv-box-tree.expanded .tree-children {
+  opacity: 1;
+  transform: translateX(0);
+  visibility: visible;
 }
 
 #arxiv-box-tree .box-title {
@@ -66,5 +118,32 @@
 
 #arxiv-box-tree .limitation-list li {
   margin-bottom: 4px;
+}
+
+#arxiv-flowchart-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: 2px solid white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 999999;
+  font-size: 18px;
+  font-weight: bold;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+#arxiv-flowchart-toggle:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
 }
 
