@@ -1,18 +1,94 @@
-#arxiv-box-tree {
+/* Inspired Search – Compact Paper Graph Overlay */
+.iso {
   position: fixed;
-  z-index: 9999;
-  user-select: none;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 40px;
+  z-index: 2147483646;
+  right: 16px;
+  top: 16px;
+  width: 400px;
+  height: 500px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: saturate(160%) blur(6px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(2, 6, 23, 0.18);
+  overflow: hidden;
 }
 
-#arxiv-box-tree * {
+.iso.is-expanded {
+  right: 5vw;
+  top: 5vh;
+  width: 90vw;
+  height: 90vh;
+}
+
+.iso * {
   box-sizing: border-box;
 }
 
-#arxiv-box-tree .tree-connectors {
+.iso-header {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px 0 12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.iso-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.iso-status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.05) inset;
+}
+.iso-status-idle { background: #cbd5e1; }
+.iso-status-loading { background: #f59e0b; }
+.iso-status-ready { background: #10b981; }
+.iso-status-error { background: #ef4444; }
+
+.iso-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.iso-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.iso-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.08);
+}
+.iso-btn:active {
+  transform: translateY(0);
+}
+
+.iso-body {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 44px);
+}
+
+.iso-connectors {
   position: absolute;
   top: 0;
   left: 0;
@@ -21,50 +97,69 @@
   pointer-events: none;
 }
 
-#arxiv-box-tree .tree-box {
-  width: 220px;
-  min-height: 120px;
-  padding: 16px;
-  background-color: rgba(255, 255, 255, 0.1);
-  border: 2px solid white;
+.iso-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 12px 10px 12px;
+  border: 1.5px solid #3b82f6;
+  background: rgba(59, 130, 246, 0.06);
+  color: #0b3a7e;
   border-radius: 12px;
-  color: white;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  text-align: left;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-  backdrop-filter: blur(3px);
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.12);
 }
 
-#arxiv-box-tree .tree-box.tree-root {
-  cursor: move;
+.iso-node-main {
+  border-color: #1d4ed8;
+  background: rgba(29, 78, 216, 0.08);
+  color: #0b2f6b;
 }
 
-#arxiv-box-tree .tree-children {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  position: relative;
-}
-
-#arxiv-box-tree .box-title {
-  font-size: 14px;
+.iso-node-title {
   font-weight: 700;
-  margin-bottom: 8px;
-  color: white;
+  font-size: 13px;
+  line-height: 1.25;
 }
 
-#arxiv-box-tree .limitation-list {
-  margin: 0;
-  padding-left: 16px;
+.iso-node-meta, .iso-node-dir {
   font-size: 12px;
-  color: white;
+  color: #0f172a;
+  opacity: 0.8;
 }
 
-#arxiv-box-tree .limitation-list li {
-  margin-bottom: 4px;
+.iso-risk {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.06) inset;
+}
+.iso-risk-low { background: #10b981; }
+.iso-risk-medium { background: #f59e0b; }
+.iso-risk-high { background: #ef4444; }
+
+.iso-suggestions a.iso-node {
+  text-decoration: none;
+}
+
+.iso-appear {
+  animation: isoFadeIn 340ms ease both;
+}
+
+@keyframes isoFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .iso.is-compact {
+    right: 10px;
+    top: 10px;
+    width: min(92vw, 380px);
+    height: 60vh;
+  }
 }
 
