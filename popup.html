@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inspired Search</title>
+  <style>
+    :root {
+      --ink: #0f1520;
+      --panel: #172233;
+      --text: #e8eef7;
+      --muted: #9aa8bc;
+      --accent: #3ec6b2;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      width: 280px;
+      font-family: "Manrope", "Segoe UI", Tahoma, sans-serif;
+      background:
+        radial-gradient(120% 80% at 100% 0%, rgba(91, 141, 239, 0.22), transparent 55%),
+        radial-gradient(90% 70% at 0% 100%, rgba(62, 198, 178, 0.18), transparent 50%),
+        linear-gradient(165deg, #172233 0%, #0f1520 100%);
+      color: var(--text);
+      padding: 16px 16px 14px;
+    }
+    h1 {
+      margin: 0 0 4px;
+      font-family: "Syne", "Avenir Next", "Segoe UI", sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    p {
+      margin: 0 0 12px;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+    .hint {
+      border-top: 1px solid rgba(232, 238, 247, 0.12);
+      padding-top: 10px;
+      font-size: 0.72rem;
+      color: var(--text);
+    }
+    a {
+      color: var(--accent);
+      font-weight: 700;
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <h1>Inspired Search</h1>
+  <p>Open any arXiv abstract, PDF, or HTML page — the explorer appears as a floating panel.</p>
+  <div class="hint">
+    Tip: start on
+    <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer">Attention Is All You Need</a>
+    to see a full curated lineage.
+  </div>
+</body>
+</html>
