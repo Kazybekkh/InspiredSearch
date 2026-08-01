@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Inspired Search",
+  "version": "2.0.0",
+  "description": "Explore related research papers on arXiv — find gaps, follow lineages, and spark new ideas.",
+  "permissions": ["storage"],
+  "host_permissions": [
+    "https://export.arxiv.org/*",
+    "http://export.arxiv.org/*",
+    "https://arxiv.org/*",
+    "http://arxiv.org/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Inspired Search",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://arxiv.org/abs/*",
+        "https://arxiv.org/pdf/*",
+        "https://arxiv.org/html/*",
+        "http://arxiv.org/abs/*",
+        "http://arxiv.org/pdf/*",
+        "http://arxiv.org/html/*"
+      ],
+      "js": ["data/graph.js", "content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

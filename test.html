@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Attention Is All You Need</title>
+  <meta name="citation_title" content="Attention Is All You Need" />
+  <meta name="citation_author" content="Ashish Vaswani" />
+  <meta name="citation_author" content="Noam Shazeer" />
+  <meta name="citation_author" content="Niki Parmar" />
+  <meta name="citation_abstract" content="The dominant sequence transduction models are based on complex recurrent or convolutional neural networks. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms." />
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Georgia, "Times New Roman", serif;
+      color: #111;
+      background:
+        radial-gradient(100% 80% at 10% 0%, #efe6d6, transparent 50%),
+        linear-gradient(180deg, #faf8f3, #ece6da);
+      padding: 48px 20px 120px;
+    }
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 2rem;
+      margin: 0 0 0.4em;
+    }
+    .authors { color: #444; margin-bottom: 1.5rem; }
+    .note {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0,0,0,0.12);
+      font-family: system-ui, sans-serif;
+      font-size: 0.9rem;
+      color: #333;
+      line-height: 1.5;
+    }
+    code {
+      background: rgba(0,0,0,0.06);
+      padding: 0.1em 0.35em;
+      border-radius: 4px;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <h1 class="title">Attention Is All You Need</h1>
+    <p class="authors">Ashish Vaswani, Noam Shazeer, Niki Parmar, et al.</p>
+    <blockquote class="abstract">
+      The dominant sequence transduction models are based on complex recurrent or
+      convolutional neural networks that include an encoder and a decoder. We propose
+      a new simple network architecture, the Transformer, based solely on attention
+      mechanisms, dispensing with recurrence and convolutions entirely.
+    </blockquote>
+    <div class="note">
+      <p><strong>Local test page</strong> for Inspired Search (no Chrome extension required).</p>
+      <ol>
+        <li>Open this file in a browser (or serve the folder with any static server).</li>
+        <li>The Inspired Search panel should appear in the bottom-right.</li>
+        <li>Click <em>Find related papers</em> → expand children → <em>Explore this</em> → back.</li>
+      </ol>
+      <p>
+        Note: live arXiv API calls need the extension background worker.
+        On this page, curated graph data is used instead.
+        Simulated abs URL for id detection is not present; the graph matches by title.
+      </p>
+      <p>Load unpacked extension from this repo root in <code>chrome://extensions</code>, then visit
+        <code>https://arxiv.org/abs/1706.03762</code>.</p>
+    </div>
+  </main>
+  <script src="data/graph.js"></script>
+  <script src="content.js"></script>
+</body>
+</html>
