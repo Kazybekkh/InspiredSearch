@@ -264,7 +264,7 @@
   background: rgba(15, 21, 32, 0.78);
   backdrop-filter: blur(8px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
-  overflow: hidden;
+  overflow: auto;
   animation: is-appear 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
